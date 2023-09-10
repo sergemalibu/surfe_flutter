@@ -1,20 +1,51 @@
-name: surf_flutter_courses_template
-description: Our courses' template.
-publish_to: "none"
-version: 0.1.0
+name: business_card
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.3 <4.0.0" # Dart SDK version
-  flutter: 3.10.3 # Fixed Flutter version
+  sdk: '>=3.1.0-325.0.dev <4.0.0'
+
 
 dependencies:
   flutter:
     sdk: flutter
 
+
+
+  cupertino_icons: ^1.0.2
+  flutter_svg: ^2.0.7
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
   flutter_lints: ^2.0.0
 
+
 flutter:
+
+
   uses-material-design: true
+
+
+  assets:
+    - lib/assets/photo/myPhoto.JPG
+    - lib/assets/icon/icon_mail.svg
+    - lib/assets/icon/icon_phone.svg
+    - lib/assets/icon/icon_watsapp.svg
+
+
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: lib/fonts/Montserrat.ttf
+    - family: Radiotechna
+      fonts:
+        - asset: lib/fonts/Radiotechna.ttf
+       
+
+
