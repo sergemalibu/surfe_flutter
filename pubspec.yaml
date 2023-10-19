@@ -11,7 +11,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_colorpicker: ^1.0.3
+  flutter_svg: ^2.0.7
   intl: ^0.18.1  
+  provider: ^6.0.5
+  shared_preferences: ^2.2.1
 
 dev_dependencies:
   flutter_test:
@@ -20,3 +24,11 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - lib/assets/icon/group1.svg
+    - lib/assets/icon/group2.svg
+    - lib/assets/icon/group3.svg
+    - lib/assets/icon/ava.png
+
+  
