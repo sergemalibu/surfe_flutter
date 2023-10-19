@@ -19,7 +19,7 @@ abstract class AppStrings {
   static const String systemThem = 'Системная';
   static const String logOut = 'Log out';
 
-  static const String systemThemLite = 'Светлая';
+  static const String systemThemLite = 'Cветлая';
   static const String systemThemDark = 'Темная';
   static const String ready = 'Готово';
 

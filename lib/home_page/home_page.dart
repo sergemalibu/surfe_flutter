@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(color: themeProvider.themeData.primaryColor),
             ),
             const SizedBox(
-              width: 20,
+              width: 30,
             )
           ],
         ),

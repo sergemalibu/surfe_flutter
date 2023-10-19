@@ -5,9 +5,15 @@ import 'package:surf_flutter_courses_template/theme/theme_provider.dart';
 import 'package:flutter/scheduler.dart';
 
 void main() {
-  // time lerping.
   timeDilation = 2.0;
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -15,16 +21,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => ThemeProvider(),
-      child: Consumer<ThemeProvider>(
-        builder: (context, themeProvider, child) {
-          return MaterialApp(
-            theme: themeProvider.themeData,
-            home: const HomePage(),
-          );
-        },
-      ),
+    timeDilation = 3.0;
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          title: 'RadioTile App',
+          theme: themeProvider.themeData,
+          home: const HomePage(),
+        );
+      },
     );
   }
 }

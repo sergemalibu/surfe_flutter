@@ -15,12 +15,29 @@ class ShowModalBottomSheetWidget extends StatefulWidget {
 
 class _ShowModalBottomSheetWidgetState
     extends State<ShowModalBottomSheetWidget> {
-  String _selectedValueTheme = AppStrings.systemThem;
-  int _selectedColorScheme = 1;
+  var _selectedValueTheme = AppStrings.systemThem;
+
+  @override
+  void didChangeDependencies() {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    setState(() {
+      var themeData = themeProvider.themeData.brightness;
+      if (themeData == Brightness.light) {
+        _selectedValueTheme = AppStrings.systemThemLite;
+      } else if (themeData == Brightness.dark) {
+        _selectedValueTheme = AppStrings.systemThemDark;
+      } else {
+        _selectedValueTheme = AppStrings.systemThem;
+      }
+    });
+
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final int selectedColorScheme = themeProvider.selectedColorScheme;
 
     return ClipRRect(
       borderRadius: const BorderRadius.only(
@@ -96,7 +113,7 @@ class _ShowModalBottomSheetWidgetState
                   child: TextButton(
                     onPressed: () {
                       themeProvider.toggleTheme(
-                          _selectedColorScheme, _selectedValueTheme);
+                          selectedColorScheme, _selectedValueTheme);
                       Navigator.pop(context);
                     },
                     child: const Text(
@@ -117,6 +134,8 @@ class _ShowModalBottomSheetWidgetState
   }
 }
 
+//Цвета контейнеров
+
 class ColorSchemeWidget extends StatefulWidget {
   const ColorSchemeWidget({super.key});
 
@@ -125,39 +144,18 @@ class ColorSchemeWidget extends StatefulWidget {
 }
 
 class _ColorSchemeWidgetState extends State<ColorSchemeWidget> {
-  bool _isContainer1Selected = false;
-  bool _isContainer2Selected = false;
-  bool _isContainer3Selected = false;
-
-  void _toggleSelection(int containerNumber) {
-    context
-        .findAncestorStateOfType<_ShowModalBottomSheetWidgetState>()
-        ?._selectedColorScheme = containerNumber;
-    setState(() {
-      if (containerNumber == 1) {
-        _isContainer1Selected = !_isContainer1Selected;
-        _isContainer2Selected = false;
-        _isContainer3Selected = false;
-      } else if (containerNumber == 2) {
-        _isContainer2Selected = !_isContainer2Selected;
-        _isContainer1Selected = false;
-        _isContainer3Selected = false;
-      } else if (containerNumber == 3) {
-        _isContainer3Selected = !_isContainer3Selected;
-        _isContainer1Selected = false;
-        _isContainer2Selected = false;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    ThemeProvider provider = Provider.of<ThemeProvider>(context);
+    int selectContaner = provider.selectedColorScheme;
+
     // Освещенность темы
     Brightness themeBrightness = Theme.of(context).brightness;
 
     // Цвет текста в зависимости от освещенности темы
     Color textColor =
         themeBrightness == Brightness.light ? Colors.black : Colors.white;
+
     final schemColor = Theme.of(context).extension<MyColors>()?.schemColor;
 
     return Column(
@@ -172,11 +170,11 @@ class _ColorSchemeWidgetState extends State<ColorSchemeWidget> {
           children: [
             Expanded(
               child: GestureDetector(
-                onTap: (() => _toggleSelection(1)),
+                onTap: (() => provider.toggleSelection(1)),
                 child: Container(
                   height: 64,
                   decoration: BoxDecoration(
-                    border: _isContainer1Selected
+                    border: selectContaner == 1
                         ? Border.all(color: Theme.of(context).primaryColor)
                         : null,
                     borderRadius: BorderRadius.circular(6),
@@ -194,7 +192,7 @@ class _ColorSchemeWidgetState extends State<ColorSchemeWidget> {
                       Text(
                         AppStrings.colorScheeme1,
                         style: TextStyle(
-                          color: _isContainer1Selected
+                          color: selectContaner == 1
                               ? textColor
                               : Theme.of(context).hintColor,
                         ),
@@ -208,12 +206,12 @@ class _ColorSchemeWidgetState extends State<ColorSchemeWidget> {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  _toggleSelection(2);
+                  provider.toggleSelection(2);
                 },
                 child: Container(
                   height: 64,
                   decoration: BoxDecoration(
-                    border: _isContainer2Selected
+                    border: selectContaner == 2
                         ? Border.all(color: Theme.of(context).primaryColor)
                         : null,
                     borderRadius: BorderRadius.circular(6),
@@ -231,7 +229,7 @@ class _ColorSchemeWidgetState extends State<ColorSchemeWidget> {
                       Text(
                         AppStrings.colorScheeme2,
                         style: TextStyle(
-                          color: _isContainer2Selected
+                          color: selectContaner == 2
                               ? textColor
                               : Theme.of(context).hintColor,
                         ),
@@ -245,12 +243,12 @@ class _ColorSchemeWidgetState extends State<ColorSchemeWidget> {
             Expanded(
               child: GestureDetector(
                 onTap: (() => {
-                      _toggleSelection(3),
+                      provider.toggleSelection(3),
                     }),
                 child: Container(
                   height: 64,
                   decoration: BoxDecoration(
-                    border: _isContainer3Selected
+                    border: selectContaner == 3
                         ? Border.all(color: Theme.of(context).primaryColor)
                         : null,
                     borderRadius: BorderRadius.circular(6),
@@ -268,7 +266,7 @@ class _ColorSchemeWidgetState extends State<ColorSchemeWidget> {
                       Text(
                         AppStrings.colorScheeme3,
                         style: TextStyle(
-                          color: _isContainer3Selected
+                          color: selectContaner == 3
                               ? textColor
                               : Theme.of(context).hintColor,
                         ),
